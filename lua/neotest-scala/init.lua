@@ -62,7 +62,7 @@ function ScalaNeotestAdapter.discover_positions(path)
 	  (object_definition
 	   name: (identifier) @namespace.name)
 	   @namespace.definition
-	  
+
       (class_definition
       name: (identifier) @namespace.name)
       @namespace.definition
@@ -71,6 +71,11 @@ function ScalaNeotestAdapter.discover_positions(path)
         function: (call_expression
         function: (identifier) @func_name (#match? @func_name "test")
         arguments: (arguments (string) @test.name))
+      )) @test.definition
+
+      ((infix_expression
+        left: (string) @test.name
+        operator: (identifier) @func_name (#match? @func_name "(should|must|can|in|when|which|ignore)")
       )) @test.definition
     ]]
     return lib.treesitter.parse_positions(
